@@ -1,0 +1,16 @@
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+
+    button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    }
+
+    button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    }

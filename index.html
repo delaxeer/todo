@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kanban Board</title>
+  <link rel="stylesheet" href="styles/reset.css">
+  <link rel="stylesheet" href="styles/variables.css">
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="styles/animations.css">
+</head>
+<body>
+  <header>
+    <h1>Kanban Board</h1>
+    <div class="controls">
+      <select id="project-select">
+        <option value="">Выберите проект</option>
+      </select>
+      <button id="add-project-btn">Новый проект</button>
+      <input type="text" id="search-input" placeholder="Поиск задач...">
+      <select id="filter-priority">
+        <option value="">Все приоритеты</option>
+        <option value="low">Низкий</option>
+        <option value="medium">Средний</option>
+        <option value="high">Высокий</option>
+      </select>
+      <select id="sort-tasks">
+        <option value="">Без сортировки</option>
+        <option value="priority">По приоритету</option>
+        <option value="date">По дате</option>
+        <option value="deadline">По сроку</option>
+      </select>
+      <button id="export-tasks">Экспорт</button>
+      <button id="import-tasks">Импорт</button>
+      <button id="theme-toggle">Светлая/Темная тема</button>
+      <button id="add-task-btn">Добавить задачу</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="kanban-board">
+      <div class="column" data-status="todo">
+        <h2>To Do</h2>
+        <div class="tasks" data-status="todo"></div>
+      </div>
+      <div class="column" data-status="in-progress">
+        <h2>In Progress</h2>
+        <div class="tasks" data-status="in-progress"></div>
+      </div>
+      <div class="column" data-status="done">
+        <h2>Done</h2>
+        <div class="tasks" data-status="done"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Модалка для задач -->
+  <div id="task-modal" class="modal hidden">
+    <div class="modal-content">
+      <span id="close-modal" class="close">×</span>
+      <h2>Новая задача</h2>
+      <form id="task-form">
+        <label for="task-title">Название:</label>
+        <input type="text" id="task-title" required>
+        <label for="task-description">Описание:</label>
+        <textarea id="task-description"></textarea>
+        <label for="task-priority">Приоритет:</label>
+        <select id="task-priority">
+          <option value="low">Низкий</option>
+          <option value="medium">Средний</option>
+          <option value="high">Высокий</option>
+        </select>
+        <label for="task-status">Статус:</label>
+        <select id="task-status">
+          <option value="todo">To Do</option>
+          <option value="in-progress">In Progress</option>
+          <option value="done">Done</option>
+        </select>
+        <label for="task-deadline">Срок выполнения:</label>
+        <input type="datetime-local" id="task-deadline">
+        <button type="submit">Сохранить</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модалка для проектов -->
+  <div id="project-modal" class="modal hidden">
+    <div class="modal-content">
+      <span id="close-project-modal" class="close">×</span>
+      <h2>Новый проект</h2>
+      <form id="project-form">
+        <label for="project-name">Название проекта:</label>
+        <input type="text" id="project-name" required>
+        <button type="submit">Создать</button>
+      </form>
+    </div>
+  </div>
+  <!-- Уведомления -->
+  <div id="notification" class="notification hidden"></div>
+
+  <!-- Импорт задач -->
+  <input type="file" id="import-file" accept=".json" style="display: none;">
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

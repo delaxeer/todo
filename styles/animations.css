@@ -1,0 +1,27 @@
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes statusChange {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.task-card, .modal-content {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.notification {
+  animation: slideIn 0.3s ease-out;
+}
+
+.status-option.active {
+  animation: statusChange 0.2s ease;
+}

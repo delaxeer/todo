@@ -1,0 +1,56 @@
+:root {
+  --primary-color: #cf6bd6;
+  --border-color: #e0e0e0;
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --background-color: #ffffff;
+  --text-color: #333333;
+  --card-bg: #f9f9f9;
+  --modal-bg: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow: 0 4px 6px var(--shadow-color);
+  --transition: all 0.3s ease;
+  --priority-low: #28a745;
+  --priority-medium: #ffc107;
+  --priority-high: #dc3545;
+  --deadline-overdue: #ff4d4d;
+  --status-todo: #6c757d;
+  --status-in-progress: #17a2b8;
+  --status-done: #28a745;
+  --bg-body-light: url('images/bg-light.png') no-repeat center/cover;
+  --bg-body-dark: url('images/bg-dark.png') no-repeat center/cover;
+  --bg-task-light: url('images/todo-bg.jpg') no-repeat center/cover;
+  --bg-task-dark: url('images/todo-bg.jpg') no-repeat center/cover;
+  --bg-todo-light: url('images/todolist-bg.jpg') no-repeat center/cover;
+  --bg-todo-dark: url('images/todolist-bg.jpg') no-repeat center/cover;
+  --bg-in-progress-light: url('images/progress-bg.jpg') no-repeat center/cover;
+  --bg-in-progress-dark: url('images/progress-bg.jpg') no-repeat center/cover;
+  --bg-done-light: url('images/done-bg.jpg') no-repeat center/cover;
+  --bg-done-dark: url('images/done-bg.jpg') no-repeat center/cover;
+
+  &[data-theme="dark"] {
+    --primary-color: #66b3ff;
+    --border-color: #444444;
+    --background-color: #1a1a1a;
+    --text-color: #ffffff;
+    --card-bg: #2a2a2a;
+    --modal-bg: #2a2a2a;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --deadline-overdue: #ff6666;
+    --status-todo: #adb5bd;
+    --status-in-progress: #4ecdc4;
+    --status-done: #45b649;
+    --bg-body: var(--bg-body-dark);
+    --bg-task: var(--bg-task-dark);
+    --bg-todo: var(--bg-todo-dark);
+    --bg-in-progress: var(--bg-in-progress-dark);
+    --bg-done: var(--bg-done-dark);
+  }
+
+  &[data-theme="light"] {
+    --bg-body: var(--bg-body-light);
+    --bg-task: var(--bg-task-light);
+    --bg-todo: var(--bg-todo-light);
+    --bg-in-progress: var(--bg-in-progress-light);
+    --bg-done: var(--bg-done-light);
+  }
+}
