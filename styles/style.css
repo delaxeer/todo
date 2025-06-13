@@ -198,6 +198,52 @@ header h1 {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
+#theme-toggle {
+  display: none;
+}
+
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.theme-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: var(--transition);
+  border-radius: 34px;
+}
+
+.theme-switch .slider:before {
+  position: absolute;
+  content: "🌞";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  text-align: center;
+  line-height: 26px;
+  transition: var(--transition);
+  border-radius: 50%;
+}
+
+#theme-toggle:checked + .slider {
+  background-color: #66b3ff;
+}
+
+#theme-toggle:checked + .slider:before {
+  transform: translateX(26px);
+  content: "🌙";
+}
+
 .modal {
   display: flex;
   position: fixed;
@@ -230,28 +276,27 @@ header h1 {
   cursor: pointer;
 }
 
-#task-form, #project-form, #bg-form {
+#task-form, #project-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-#task-form label, #project-form label, #bg-form label {
+#task-form label, #project-form label {
   font-size: 14px;
 }
 
 #task-form input,
 #task-form textarea,
 #task-form select,
-#project-form input,
-#bg-form input {
+#project-form input {
   padding: 8px;
   border: 1px solid var(--border-color);
   border-radius: 3px;
   background-color: var(--card-bg);
 }
 
-#task-form button, #project-form button, #bg-form button {
+#task-form button, #project-form button {
   background-color: var(--primary-color);
   color: white;
   padding: 10px;

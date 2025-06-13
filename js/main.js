@@ -9,64 +9,40 @@ let projects = loadProjects();
 let currentProjectId = loadCurrentProjectId();
 let currentTasks = projects.find(p => p.id === currentProjectId)?.tasks || [];
 
-function loadBackgrounds() {
-  return {
-    bgBody: localStorage.getItem('bgBody') || '',
-    bgTask: localStorage.getItem('bgTask') || '',
-    bgTodo: localStorage.getItem('bgTodo') || '',
-    bgInProgress: localStorage.getItem('bgInProgress') || '',
-    bgDone: localStorage.getItem('bgDone') || ''
-  };
-}
-
-function saveBackgrounds(backgrounds) {
-  localStorage.setItem('bgBody', backgrounds.bgBody);
-  localStorage.setItem('bgTask', backgrounds.bgTask);
-  localStorage.setItem('bgTodo', backgrounds.bgTodo);
-  localStorage.setItem('bgInProgress', backgrounds.bgInProgress);
-  localStorage.setItem('bgDone', backgrounds.bgDone);
-  applyBackgrounds(backgrounds);
-}
-
-function applyBackgrounds(backgrounds) {
-  if (backgrounds.bgBody) document.body.style.background = backgrounds.bgBody;
-  if (backgrounds.bgTask) document.querySelectorAll('.task-card').forEach(card => card.style.background = backgrounds.bgTask);
-  if (backgrounds.bgTodo) document.querySelector('[data-status="todo"]').style.background = backgrounds.bgTodo;
-  if (backgrounds.bgInProgress) document.querySelector('[data-status="in-progress"]').style.background = backgrounds.bgInProgress;
-  if (backgrounds.bgDone) document.querySelector('[data-status="done"]').style.background = backgrounds.bgDone;
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-  const backgrounds = loadBackgrounds();
-  applyBackgrounds(backgrounds);
-
   renderProjects(projects, currentProjectId);
   renderTasks(currentTasks, currentProjectId);
   initDragAndDrop(currentTasks, currentProjectId, updateTasks);
 
+  // Проверка просроченных задач при загрузке
   currentTasks.forEach(task => {
     if (isOverdue(task.deadline)) notifyTaskOverdue(task.title);
   });
 
+  // Открытие модалки задачи
   document.getElementById('add-task-btn').addEventListener('click', () => {
     showModal('task-modal');
     document.getElementById('task-form').dataset.mode = 'add';
   });
 
+  // Закрытие модалки задачи
   document.getElementById('close-modal').addEventListener('click', () => {
     hideModal('task-modal');
     resetForm(document.getElementById('task-form'));
   });
 
+  // Открытие модалки проекта
   document.getElementById('add-project-btn').addEventListener('click', () => {
     showModal('project-modal');
   });
 
+  // Закрытие модалки проекта
   document.getElementById('close-project-modal').addEventListener('click', () => {
     hideModal('project-modal');
     resetForm(document.getElementById('project-form'));
   });
 
+  // Создание/редактирование задачи
   document.getElementById('task-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const form = e.target;
@@ -112,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resetForm(form);
   });
 
+  // Создание проекта
   document.getElementById('project-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('project-name').value.trim();
@@ -124,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resetForm(e.target);
   });
 
+  // Переключение проекта
   document.getElementById('project-select').addEventListener('change', (e) => {
     currentProjectId = e.target.value;
     currentTasks = switchProject(projects, currentProjectId);
@@ -131,6 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initDragAndDrop(currentTasks, currentProjectId, updateTasks);
   });
 
+  // Поиск задач
   document.getElementById('search-input').addEventListener('input', debounce(e => {
     const query = e.target.value.toLowerCase();
     const filteredTasks = currentTasks.filter(task =>
@@ -139,23 +118,27 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTasks(filteredTasks, currentProjectId);
   }, 300));
 
+  // Фильтрация по приоритету
   document.getElementById('filter-priority').addEventListener('change', (e) => {
     const priority = e.target.value;
     const filteredTasks = priority ? currentTasks.filter(task => task.priority === priority) : currentTasks;
     renderTasks(filteredTasks, currentProjectId);
   });
 
+  // Сортировка задач
   document.getElementById('sort-tasks').addEventListener('change', (e) => {
     const sortType = e.target.value;
     const sortedTasks = sortTasks([...currentTasks], sortType);
     renderTasks(sortedTasks, currentProjectId);
   });
 
+  // Экспорт задач
   document.getElementById('export-tasks').addEventListener('click', () => {
     exportTasks(projects);
     showNotification('Задачи экспортированы');
   });
 
+  // Импорт задач
   document.getElementById('import-tasks').addEventListener('click', () => {
     document.getElementById('import-file').click();
   });
@@ -174,12 +157,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  document.getElementById('theme-toggle').addEventListener('click', () => {
-    const currentTheme = document.documentElement.dataset.theme || 'light';
-    document.documentElement.dataset.theme = currentTheme === 'light' ? 'dark' : 'light';
-    applyBackgrounds(loadBackgrounds());
+  // Переключение темы
+  document.getElementById('theme-toggle').addEventListener('change', (e) => {
+    document.documentElement.dataset.theme = e.target.checked ? 'dark' : 'light';
   });
 
+  // Обработка кликов по карточкам
   document.querySelector('.kanban-board').addEventListener('click', (e) => {
     const taskCard = e.target.closest('.task-card');
     if (!taskCard) return;
@@ -208,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Inline-редактирование
   document.querySelector('.kanban-board').addEventListener('focusout', (e) => {
     if (e.target.classList.contains('task-title') || e.target.classList.contains('task-description')) {
       const taskCard = e.target.closest('.task-card');
@@ -223,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Включение редактирования при двойном клике
   document.querySelector('.kanban-board').addEventListener('dblclick', (e) => {
     if (e.target.classList.contains('task-title') || e.target.classList.contains('task-description')) {
       e.target.contentEditable = true;

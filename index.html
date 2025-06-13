@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="styles/style.css">
   <link rel="stylesheet" href="styles/animations.css">
 </head>
-<body>
+<body data-theme="light">
   <header>
     <h1>Kanban Board</h1>
     <div class="controls">
@@ -32,7 +32,10 @@
       </select>
       <button id="export-tasks">Экспорт</button>
       <button id="import-tasks">Импорт</button>
-      <button id="theme-toggle">Светлая/Темная тема</button>
+      <label class="theme-switch">
+        <input type="checkbox" id="theme-toggle">
+        <span class="slider"></span>
+      </label>
       <button id="add-task-btn">Добавить задачу</button>
     </div>
   </header>
@@ -95,6 +98,7 @@
       </form>
     </div>
   </div>
+
   <!-- Уведомления -->
   <div id="notification" class="notification hidden"></div>
 
